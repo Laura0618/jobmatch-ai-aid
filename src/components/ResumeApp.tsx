@@ -12,6 +12,7 @@ interface AppData {
   jobTitle: string;
   company: string;
   jobDescription: string;
+  tailoredResume?: string;
 }
 
 export const ResumeApp = () => {
@@ -37,7 +38,8 @@ export const ResumeApp = () => {
     setCurrentStep("processing");
   };
 
-  const handleProcessingComplete = () => {
+  const handleProcessingComplete = (tailoredResume: string) => {
+    setAppData(prev => ({ ...prev, tailoredResume }));
     setCurrentStep("results");
   };
 
@@ -54,7 +56,8 @@ export const ResumeApp = () => {
       resumeText: "",
       jobTitle: "",
       company: "",
-      jobDescription: ""
+      jobDescription: "",
+      tailoredResume: ""
     });
     setCurrentStep("hero");
   };
@@ -76,12 +79,21 @@ export const ResumeApp = () => {
         );
       
       case "processing":
-        return <ProcessingStep onComplete={handleProcessingComplete} />;
+        return (
+          <ProcessingStep 
+            onComplete={handleProcessingComplete}
+            resumeText={appData.resumeText}
+            jobTitle={appData.jobTitle}
+            company={appData.company}
+            jobDescription={appData.jobDescription}
+          />
+        );
       
       case "results":
         return (
           <ResultsDisplay
             originalResume={appData.resumeText}
+            tailoredResume={appData.tailoredResume || ""}
             jobTitle={appData.jobTitle}
             company={appData.company}
             onBack={handleBackToJobDescription}

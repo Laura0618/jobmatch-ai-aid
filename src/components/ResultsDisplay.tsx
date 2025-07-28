@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 
 interface ResultsDisplayProps {
   originalResume: string;
+  tailoredResume: string;
   jobTitle: string;
   company: string;
   onBack: () => void;
@@ -16,6 +17,7 @@ interface ResultsDisplayProps {
 
 export const ResultsDisplay = ({ 
   originalResume, 
+  tailoredResume,
   jobTitle, 
   company, 
   onBack, 
@@ -23,48 +25,7 @@ export const ResultsDisplay = ({
 }: ResultsDisplayProps) => {
   const { toast } = useToast();
 
-  // Mock tailored content (in real app, this would come from AI backend)
-  const tailoredResume = `JOHN DOE
-Software Engineer
-
-📧 john.doe@email.com | 📱 (555) 123-4567 | 🔗 linkedin.com/in/johndoe | 🌐 github.com/johndoe
-
-PROFESSIONAL SUMMARY
-Results-driven Software Engineer with 5+ years of experience developing scalable web applications and APIs. Expertise in React, Node.js, and cloud technologies. Proven track record of leading cross-functional teams and delivering high-quality software solutions that improve user experience and business metrics.
-
-TECHNICAL SKILLS
-• Frontend: React, TypeScript, JavaScript, HTML5, CSS3, Tailwind CSS
-• Backend: Node.js, Python, Express.js, RESTful APIs, GraphQL
-• Databases: PostgreSQL, MongoDB, Redis
-• Cloud & DevOps: AWS, Docker, CI/CD, Git, GitHub Actions
-• Testing: Jest, Cypress, Unit Testing, Integration Testing
-
-PROFESSIONAL EXPERIENCE
-
-Senior Software Engineer | TechCorp Inc. | 2021 - Present
-• Led development of customer-facing React applications serving 100K+ daily users
-• Architected and implemented microservices using Node.js and Docker
-• Collaborated with product managers and designers to define technical requirements
-• Mentored 3 junior developers and established coding best practices
-• Improved application performance by 40% through code optimization
-
-Software Engineer | StartupXYZ | 2019 - 2021
-• Built responsive web applications using React and TypeScript
-• Developed RESTful APIs and integrated third-party services
-• Implemented automated testing strategies reducing bugs by 60%
-• Participated in agile development process and sprint planning
-
-PROJECTS
-• E-commerce Platform: Built full-stack application with React, Node.js, and PostgreSQL
-• Real-time Chat App: Developed using WebSocket, React, and MongoDB
-• Task Management Tool: Created responsive SPA with advanced filtering and search
-
-EDUCATION
-Bachelor of Science in Computer Science | University of Technology | 2019
-
-CERTIFICATIONS
-• AWS Certified Developer Associate
-• React Developer Certification`;
+  // Use the AI-generated tailored resume
 
   const coverLetter = `Dear Hiring Manager,
 
