@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, Brain, FileText, MessageSquare, Download, AlertCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import jsPDF from 'jspdf';
 
 interface ProcessingStepProps {
   onComplete: (tailoredResume: string) => void;
@@ -16,13 +18,57 @@ export const ProcessingStep = ({ onComplete, resumeText, jobTitle, company, jobD
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const steps = [
     { icon: Brain, text: "Analyzing job requirements", duration: 1000 },
     { icon: FileText, text: "Connecting to AI to optimize resume", duration: 2000 },
     { icon: MessageSquare, text: "Generating tailored content", duration: 3000 },
-    { icon: Download, text: "Finalizing your resume", duration: 1000 },
+    { icon: Download, text: "Generating PDF and cover letter", duration: 1500 },
+    { icon: Download, text: "Finalizing downloads", duration: 500 },
   ];
+
+  const generatePDF = (content: string, filename: string) => {
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    const maxWidth = pageWidth - 2 * margin;
+    
+    // Split content into lines that fit
+    const lines = doc.splitTextToSize(content, maxWidth);
+    
+    // Add content to PDF
+    doc.text(lines, margin, 20);
+    
+    // Save the PDF
+    doc.save(filename);
+  };
+
+  const generateCoverLetter = () => {
+    const currentDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long', 
+      day: 'numeric'
+    });
+
+    return `${currentDate}
+
+Dear Hiring Manager,
+
+I am writing to express my strong interest in the ${jobTitle} position${company ? ` at ${company}` : ''}. Having carefully reviewed the job requirements, I am excited about the opportunity to contribute my skills and experience to your team.
+
+Based on my background and the qualifications outlined in your job posting, I believe I would be an excellent fit for this role. My experience aligns well with your requirements, and I am particularly drawn to the challenges and opportunities this position offers.
+
+I have taken the time to tailor my resume specifically for this role, highlighting the most relevant aspects of my experience that directly relate to your needs. This demonstrates not only my qualifications but also my genuine interest in your organization and this particular opportunity.
+
+I would welcome the opportunity to discuss how my background and enthusiasm can contribute to your team's continued success. Thank you for considering my application, and I look forward to hearing from you.
+
+Best regards,
+[Your Name]
+
+---
+Note: This cover letter has been generated based on the job requirements you provided. Please personalize it further with your specific details and experiences.`;
+  };
 
   useEffect(() => {
     const generateResume = async () => {
@@ -57,10 +103,37 @@ export const ProcessingStep = ({ onComplete, resumeText, jobTitle, company, jobD
           }
 
           if (data?.tailoredResume) {
-            // Wait for visual progression to complete
+            // Generate and download PDF
+            setTimeout(() => {
+              generatePDF(data.tailoredResume, 'tailored-resume.pdf');
+              
+              toast({
+                title: "Resume PDF Generated!",
+                description: "Your tailored resume has been downloaded as PDF."
+              });
+            }, 1000);
+
+            // Generate and download cover letter
+            setTimeout(() => {
+              const coverLetter = generateCoverLetter();
+              const blob = new Blob([coverLetter], { type: 'text/plain' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'cover-letter.txt';
+              a.click();
+              URL.revokeObjectURL(url);
+              
+              toast({
+                title: "Cover Letter Generated!",
+                description: "Your personalized cover letter has been downloaded."
+              });
+            }, 1500);
+
+            // Wait for visual progression to complete and proceed
             setTimeout(() => {
               onComplete(data.tailoredResume);
-            }, 1000);
+            }, 2000);
           } else {
             throw new Error('No se pudo generar el currículum');
           }
