@@ -19,10 +19,10 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
   const { toast } = useToast();
 
   const handleSubmit = () => {
-    if (!jobTitle.trim() || !jobDescription.trim()) {
+    if (!jobDescription.trim()) {
       toast({
         title: "Missing information",
-        description: "Please fill in the job title and description.",
+        description: "Please fill in the job description.",
         variant: "destructive"
       });
       return;
@@ -45,7 +45,7 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
           {/* Job Title */}
           <div className="space-y-2">
             <Label htmlFor="jobTitle" className="text-base font-medium">
-              Job Title *
+              Job Title
             </Label>
             <Input
               id="jobTitle"
@@ -119,7 +119,7 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
           variant="hero"
           size="lg"
           onClick={handleSubmit}
-          disabled={!jobTitle.trim() || !jobDescription.trim()}
+          disabled={!jobDescription.trim()}
           className="px-12"
         >
           Generate Resume

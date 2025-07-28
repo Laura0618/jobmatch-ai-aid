@@ -17,15 +17,6 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
   const { toast } = useToast();
 
   const handleFileUpload = (file: File) => {
-    if (file.type === "application/pdf") {
-      toast({
-        title: "PDF Upload",
-        description: "PDF text extraction will be available when connected to Supabase backend.",
-        variant: "destructive"
-      });
-      return;
-    }
-
     if (file.type === "text/plain") {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -41,7 +32,7 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
     } else {
       toast({
         title: "Invalid file type",
-        description: "Please upload a PDF or TXT file.",
+        description: "Please upload a TXT file.",
         variant: "destructive"
       });
     }
@@ -130,7 +121,7 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
                   Drop your resume here, or click to browse
                 </p>
                 <p className="text-muted-foreground">
-                  Supports PDF and TXT files
+                  Supports TXT files
                 </p>
               </div>
               <Button 
@@ -148,7 +139,7 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
       <input
         ref={fileInputRef}
         type="file"
-        accept=".pdf,.txt"
+        accept=".txt"
         onChange={handleFileSelect}
         className="hidden"
       />
@@ -159,7 +150,7 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
           <span className="text-muted-foreground">or</span>
         </div>
         
-        <div className="space-y-2">
+        <div className="space-y-4">
           <label className="text-sm font-medium text-foreground">
             Paste your resume text
           </label>
@@ -169,6 +160,16 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
             placeholder="Copy and paste your resume content here..."
             className="min-h-[200px] resize-none"
           />
+          
+          {/* Previously Used Resumes */}
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-muted-foreground">
+              Previously used resumes
+            </label>
+            <div className="text-xs text-muted-foreground p-3 bg-muted/30 rounded-md border">
+              No previous resumes found. Your uploaded resumes will appear here for quick access.
+            </div>
+          </div>
         </div>
       </div>
 

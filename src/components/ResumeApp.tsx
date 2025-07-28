@@ -16,7 +16,7 @@ interface AppData {
 }
 
 export const ResumeApp = () => {
-  const [currentStep, setCurrentStep] = useState<AppStep>("hero");
+  const [currentStep, setCurrentStep] = useState<AppStep>("upload");
   const [appData, setAppData] = useState<AppData>({
     resumeText: "",
     jobTitle: "",
