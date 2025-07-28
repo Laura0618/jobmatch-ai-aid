@@ -178,17 +178,6 @@ export const ProcessingStep = ({ onComplete, resumeText, jobTitle, company, jobD
         })}
       </div>
 
-      {/* Fun Message */}
-      <Card className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20">
-        <div className="text-center">
-          <p className="text-foreground font-medium">
-            🎯 Matching your skills to the job requirements...
-          </p>
-          <p className="text-muted-foreground text-sm mt-2">
-            This usually takes about 30 seconds
-          </p>
-        </div>
-      </Card>
     </div>
   );
 };

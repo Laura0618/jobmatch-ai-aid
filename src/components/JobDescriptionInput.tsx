@@ -89,20 +89,6 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
         </div>
       </Card>
 
-      {/* Example Job Description */}
-      <Card className="p-6 bg-muted/30 border-muted">
-        <div className="flex items-start space-x-3">
-          <Briefcase className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
-          <div>
-            <h4 className="font-medium text-foreground mb-2">💡 Pro Tip</h4>
-            <p className="text-sm text-muted-foreground">
-              Include the entire job posting - requirements, preferred skills, company culture, 
-              and any specific technologies mentioned. This helps our AI understand exactly 
-              what the employer is looking for.
-            </p>
-          </div>
-        </div>
-      </Card>
 
       {/* Action Buttons */}
       <div className="flex justify-between">
