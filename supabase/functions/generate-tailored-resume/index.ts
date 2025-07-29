@@ -65,7 +65,7 @@ Devuelve ÚNICAMENTE el currículum adaptado, sin comentarios adicionales:`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-3.5-turbo',
         messages: [
           { role: 'system', content: 'Eres un experto en recursos humanos especializado en la adaptación de currículums para posiciones específicas.' },
           { role: 'user', content: prompt }
