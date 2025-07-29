@@ -89,18 +89,27 @@ Note: This cover letter has been generated based on the job requirements you pro
 
         // Call the AI function after the visual starts
         setTimeout(async () => {
-          const { data, error } = await supabase.functions.invoke('generate-tailored-resume', {
-            body: {
-              resumeText,
-              jobTitle,
-              company,
-              jobDescription
-            }
+          console.log('Sending data to AI:', {
+            resumeText: resumeText?.length ? `${resumeText.substring(0, 100)}...` : 'EMPTY',
+            jobTitle: jobTitle || 'EMPTY',
+            company: company || 'EMPTY', 
+            jobDescription: jobDescription?.length ? `${jobDescription.substring(0, 100)}...` : 'EMPTY'
           });
 
-          if (error) {
-            throw error;
-          }
+          try {
+            const { data, error } = await supabase.functions.invoke('generate-tailored-resume', {
+              body: {
+                resumeText: resumeText || '',
+                jobTitle: jobTitle || '',
+                company: company || '',
+                jobDescription: jobDescription || ''
+              }
+            });
+
+            if (error) {
+              console.error('Supabase function error:', error);
+              throw new Error(`Error de API: ${error.message}`);
+            }
 
           if (data?.tailoredResume) {
             // Generate and download PDF
@@ -159,7 +168,11 @@ Note: This cover letter has been generated based on the job requirements you pro
               onComplete(data.tailoredResume);
             }, 2000);
           } else {
-            throw new Error('No se pudo generar el currículum');
+            throw new Error('No se pudo generar el currículum - respuesta vacía');
+          }
+          } catch (apiError) {
+            console.error('API call error:', apiError);
+            throw apiError;
           }
         }, 2000);
 
