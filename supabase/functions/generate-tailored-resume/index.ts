@@ -38,25 +38,29 @@ serve(async (req) => {
 
     console.log('✅ Generating tailored resume for:', jobTitle, 'at', company);
 
-    const prompt = `Eres un experto en recursos humanos y redacción de currículums. Tu tarea es adaptar un currículum existente para una posición específica.
+    const prompt = `Actúa como un experto en recursos humanos con experiencia en redactar currículums personalizados para startups tecnológicas y plataformas de aprendizaje como Preply.
+
+Tu tarea es adaptar un currículum existente a una oferta de trabajo específica. La persona está aplicando a esta oferta, **no ha trabajado allí**. No inventes experiencia, no asumas que ya forma parte de la empresa.
 
 CURRÍCULUM ORIGINAL:
 ${resumeText}
 
-TRABAJO AL QUE APLICAR:
-- Puesto: ${jobTitle}
-- Empresa: ${company}
-- Descripción del trabajo: ${jobDescription}
+OFERTA DE TRABAJO:
+${jobDescription}
 
 INSTRUCCIONES:
-1. Mantén toda la información verdadera y factual del currículum original
-2. Reorganiza y enfatiza las experiencias más relevantes para este puesto
-3. Adapta la descripción de responsabilidades para usar palabras clave de la descripción del trabajo
-4. Mantén el mismo formato y estructura general
-5. No inventes experiencia o habilidades que no existan en el original
-6. Enfócate en destacar lo más relevante para el puesto
+- Reescribe el currículum resaltando las habilidades, logros y experiencias más alineadas con la oferta.
+- No modifiques los nombres de las empresas anteriores ni las fechas.
+- Mantén un tono profesional, claro y orientado a impacto (logros medibles, decisiones estratégicas, habilidades clave).
+- Mantén las secciones principales: Perfil, Experiencia profesional, Educación, Habilidades.
+- No agregues símbolos extraños ni comentarios fuera del currículum.
+- Devuelve solo el currículum adaptado, listo para ser copiado y pegado o exportado a PDF.
 
-Devuelve ÚNICAMENTE el currículum adaptado, sin comentarios adicionales:`;
+Estructura de salida recomendada:
+1. Perfil profesional
+2. Experiencia profesional (en orden cronológico inverso)
+3. Educación
+4. Habilidades y herramientas`;
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
