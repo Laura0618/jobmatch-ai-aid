@@ -105,29 +105,53 @@ Note: This cover letter has been generated based on the job requirements you pro
           if (data?.tailoredResume) {
             // Generate and download PDF
             setTimeout(() => {
-              generatePDF(data.tailoredResume, 'tailored-resume.pdf');
-              
-              toast({
-                title: "Resume PDF Generated!",
-                description: "Your tailored resume has been downloaded as PDF."
-              });
+              try {
+                console.log("Generando PDF...");
+                generatePDF(data.tailoredResume, 'tailored-resume.pdf');
+                
+                toast({
+                  title: "Resume PDF Generated!",
+                  description: "Your tailored resume has been downloaded as PDF."
+                });
+                console.log("PDF generado exitosamente");
+              } catch (error) {
+                console.error("Error generando PDF:", error);
+                toast({
+                  title: "Error generating PDF",
+                  description: "There was an issue creating the PDF file.",
+                  variant: "destructive"
+                });
+              }
             }, 1000);
 
             // Generate and download cover letter
             setTimeout(() => {
-              const coverLetter = generateCoverLetter();
-              const blob = new Blob([coverLetter], { type: 'text/plain' });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = url;
-              a.download = 'cover-letter.txt';
-              a.click();
-              URL.revokeObjectURL(url);
-              
-              toast({
-                title: "Cover Letter Generated!",
-                description: "Your personalized cover letter has been downloaded."
-              });
+              try {
+                console.log("Generando cover letter...");
+                const coverLetter = generateCoverLetter();
+                const blob = new Blob([coverLetter], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'cover-letter.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                toast({
+                  title: "Cover Letter Generated!",
+                  description: "Your personalized cover letter has been downloaded."
+                });
+                console.log("Cover letter generado exitosamente");
+              } catch (error) {
+                console.error("Error generando cover letter:", error);
+                toast({
+                  title: "Error generating cover letter",
+                  description: "There was an issue creating the cover letter file.",
+                  variant: "destructive"
+                });
+              }
             }, 1500);
 
             // Wait for visual progression to complete and proceed
