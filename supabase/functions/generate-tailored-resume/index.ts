@@ -3,6 +3,9 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
+// 🔍 DEBUG: Verifica si la variable existe
+console.log("OPENAI_API_KEY presente:", !!openAIApiKey);
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -17,7 +20,23 @@ serve(async (req) => {
   try {
     const { resumeText, jobTitle, company, jobDescription } = await req.json();
 
-    console.log('Generating tailored resume for:', jobTitle, 'at', company);
+    // Validación de campos
+    if (!resumeText || !jobTitle || !company || !jobDescription) {
+      return new Response(JSON.stringify({ error: 'Missing fields in request' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
+    }
+
+    if (!openAIApiKey) {
+      console.error("❌ ERROR: Falta la variable OPENAI_API_KEY en entorno Supabase");
+      return new Response(JSON.stringify({ error: 'Missing OpenAI API key' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log('✅ Generating tailored resume for:', jobTitle, 'at', company);
 
     const prompt = `Eres un experto en recursos humanos y redacción de currículums. Tu tarea es adaptar un currículum existente para una posición específica.
 
@@ -63,13 +82,13 @@ Devuelve ÚNICAMENTE el currículum adaptado, sin comentarios adicionales:`;
     const data = await response.json();
     const tailoredResume = data.choices[0].message.content;
 
-    console.log('Resume successfully generated');
+    console.log('✅ Resume successfully generated');
 
     return new Response(JSON.stringify({ tailoredResume }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('Error in generate-tailored-resume function:', error);
+    console.error('❌ Error in generate-tailored-resume function:', error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
