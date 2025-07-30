@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Download, Copy, ArrowLeft, Star, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ResumePreview from "@/components/ResumePreview";
+import type { ResumeData } from "@/components/ResumePreview";
 
 interface ResultsDisplayProps {
   originalResume: string;
@@ -13,19 +15,19 @@ interface ResultsDisplayProps {
   company: string;
   onBack: () => void;
   onStartOver: () => void;
+  structuredResume?: ResumeData; // <-- nueva prop
 }
 
-export const ResultsDisplay = ({ 
-  originalResume, 
+export const ResultsDisplay = ({
+  originalResume,
   tailoredResume,
-  jobTitle, 
-  company, 
-  onBack, 
-  onStartOver 
+  jobTitle,
+  company,
+  onBack,
+  onStartOver,
+  structuredResume
 }: ResultsDisplayProps) => {
   const { toast } = useToast();
-
-  // Use the AI-generated tailored resume
 
   const coverLetter = `Dear Hiring Manager,
 
@@ -133,10 +135,15 @@ John Doe`;
                 </Button>
               </div>
             </div>
-            <div className="bg-muted/30 rounded-lg p-4 max-h-96 overflow-y-auto">
-              <pre className="whitespace-pre-wrap text-sm font-mono text-foreground">
-                {tailoredResume}
-              </pre>
+
+            <div className="bg-muted/30 rounded-lg p-4 max-h-[1100px] overflow-y-auto">
+              {structuredResume ? (
+                <ResumePreview data={structuredResume} />
+              ) : (
+                <pre className="whitespace-pre-wrap text-sm font-mono text-foreground">
+                  {tailoredResume}
+                </pre>
+              )}
             </div>
           </Card>
         </TabsContent>

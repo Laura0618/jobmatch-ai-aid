@@ -4,6 +4,8 @@ import { ResumeUploader } from "./ResumeUploader";
 import { JobDescriptionInput } from "./JobDescriptionInput";
 import { ProcessingStep } from "./ProcessingStep";
 import { ResultsDisplay } from "./ResultsDisplay";
+import { parseTailoredResumeText } from "@/utils/parseTailoredResumeText";
+
 
 type AppStep = "hero" | "upload" | "job-description" | "processing" | "results";
 
@@ -13,6 +15,7 @@ interface AppData {
   company: string;
   jobDescription: string;
   tailoredResume?: string;
+  structuredResume?: ResumeData;
 }
 
 export const ResumeApp = () => {
@@ -39,9 +42,10 @@ export const ResumeApp = () => {
   };
 
   const handleProcessingComplete = (tailoredResume: string) => {
-    setAppData(prev => ({ ...prev, tailoredResume }));
-    setCurrentStep("results");
-  };
+  const structuredResume = parseTailoredResumeText(tailoredResume);
+  setAppData(prev => ({ ...prev, tailoredResume, structuredResume }));
+  setCurrentStep("results");
+};
 
   const handleBackToUpload = () => {
     setCurrentStep("upload");
