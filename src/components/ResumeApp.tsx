@@ -20,7 +20,7 @@ interface AppData {
 }
 
 export const ResumeApp = () => {
-  const [currentStep, setCurrentStep] = useState<AppStep>("upload");
+  const [currentStep, setCurrentStep] = useState<AppStep>("hero");
   const [previewMode, setPreviewMode] = useState(false); // Modo para navegar sin API calls
   const [appData, setAppData] = useState<AppData>({
     resumeText: "",
