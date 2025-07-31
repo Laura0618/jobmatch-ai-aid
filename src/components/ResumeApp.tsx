@@ -21,6 +21,7 @@ interface AppData {
 
 export const ResumeApp = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>("upload");
+  const [previewMode, setPreviewMode] = useState(false); // Modo para navegar sin API calls
   const [appData, setAppData] = useState<AppData>({
     resumeText: "",
     jobTitle: "",
@@ -28,6 +29,111 @@ export const ResumeApp = () => {
     jobDescription: ""
   });
   const { toast } = useToast();
+
+  // Datos de muestra para testing
+  const mockData = {
+    resumeText: `JOHN DOE
+Software Engineer
+
+CONTACT INFORMATION
+Email: john.doe@email.com
+Phone: (555) 123-4567
+Location: San Francisco, CA
+
+PROFESSIONAL SUMMARY
+Experienced software engineer with 5+ years developing scalable web applications using React, Node.js, and cloud technologies. Proven track record of delivering high-quality solutions and leading development teams.
+
+EXPERIENCE
+Senior Software Engineer | Tech Corp | 2021 - Present
+• Led development of customer-facing web applications serving 100k+ users
+• Implemented microservices architecture reducing system latency by 40%
+• Mentored junior developers and established coding best practices
+
+Software Engineer | StartupXYZ | 2019 - 2021
+• Built responsive web applications using React and TypeScript
+• Collaborated with product team to define technical requirements
+• Optimized database queries improving application performance by 25%
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of California, Berkeley | 2019
+
+SKILLS
+• Programming: JavaScript, TypeScript, Python, Java
+• Frontend: React, Vue.js, HTML/CSS, Tailwind
+• Backend: Node.js, Express, PostgreSQL, MongoDB
+• Cloud: AWS, Docker, Kubernetes`,
+    jobTitle: "Senior Frontend Developer",
+    company: "Google",
+    jobDescription: `We are looking for a Senior Frontend Developer to join our team and help build the next generation of user interfaces for our products.
+
+RESPONSIBILITIES:
+• Develop responsive web applications using React and modern JavaScript
+• Collaborate with designers to implement pixel-perfect UI components
+• Optimize application performance and ensure cross-browser compatibility
+• Mentor junior developers and participate in code reviews
+• Work with backend teams to integrate APIs and services
+
+REQUIREMENTS:
+• 5+ years of experience in frontend development
+• Expert knowledge of React, TypeScript, and modern CSS
+• Experience with state management (Redux, Zustand)
+• Familiarity with testing frameworks (Jest, Cypress)
+• Strong understanding of web performance optimization
+• Experience with design systems and component libraries
+
+PREFERRED:
+• Experience with Next.js or similar frameworks
+• Knowledge of GraphQL and REST APIs
+• Familiarity with cloud platforms (AWS, GCP)
+• Understanding of accessibility standards (WCAG)`,
+    tailoredResume: `JOHN DOE
+Senior Frontend Developer
+
+CONTACT INFORMATION
+Email: john.doe@email.com
+Phone: (555) 123-4567
+Location: San Francisco, CA
+
+PROFESSIONAL SUMMARY
+Senior Frontend Developer with 5+ years of expertise in React, TypeScript, and modern web technologies. Proven track record of building scalable user interfaces, optimizing performance, and mentoring development teams. Specialized in creating responsive applications and implementing design systems.
+
+TECHNICAL SKILLS
+• Frontend Technologies: React, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS
+• State Management: Redux, Zustand, Context API
+• Testing: Jest, Cypress, React Testing Library
+• Performance: Web Vitals optimization, lazy loading, code splitting
+• Tools: Webpack, Vite, ESLint, Prettier
+• Cloud & DevOps: AWS, Docker, CI/CD pipelines
+
+PROFESSIONAL EXPERIENCE
+
+Senior Software Engineer | Tech Corp | 2021 - Present
+• Led frontend development of customer-facing React applications serving 100,000+ daily users
+• Implemented responsive design systems and component libraries improving development efficiency by 50%
+• Optimized application performance through code splitting and lazy loading, reducing initial load time by 40%
+• Mentored 3 junior frontend developers on React best practices and modern JavaScript
+• Collaborated with UX/UI teams to translate designs into pixel-perfect, accessible web interfaces
+• Established frontend coding standards and participated in architecture decisions
+
+Software Engineer | StartupXYZ | 2019 - 2021
+• Built responsive web applications using React, TypeScript, and modern CSS frameworks
+• Integrated RESTful APIs and GraphQL endpoints for seamless data flow
+• Implemented cross-browser compatible solutions ensuring 99% compatibility across modern browsers
+• Collaborated closely with product and design teams to define technical requirements
+• Optimized frontend performance through database query optimization and caching strategies
+
+EDUCATION
+Bachelor of Science in Computer Science
+University of California, Berkeley | 2019
+Relevant Coursework: Web Development, Human-Computer Interaction, Software Engineering
+
+KEY ACHIEVEMENTS
+• Reduced application bundle size by 35% through strategic code splitting and optimization
+• Led migration from JavaScript to TypeScript improving code maintainability and reducing bugs by 60%
+• Implemented automated testing pipeline achieving 90% code coverage
+• Contributed to open-source React component library with 1000+ GitHub stars`
+  };
 
   const handleGetStarted = () => {
     setCurrentStep("upload");
@@ -40,6 +146,18 @@ export const ResumeApp = () => {
 
   const handleJobDescriptionReady = async (jobTitle: string, company: string, jobDescription: string) => {
     setAppData(prev => ({ ...prev, jobTitle, company, jobDescription }));
+    
+    // Si está en modo preview, usar datos de muestra
+    if (previewMode) {
+      setTimeout(() => {
+        handleProcessingComplete(mockData.tailoredResume);
+        toast({
+          title: "Preview Mode",
+          description: "Usando datos de muestra - No se consumieron créditos de API",
+        });
+      }, 1000);
+      return;
+    }
     
     // Call the AI function directly
     try {
@@ -97,10 +215,26 @@ export const ResumeApp = () => {
     setCurrentStep("hero");
   };
 
+  const loadMockData = () => {
+    setAppData({
+      resumeText: mockData.resumeText,
+      jobTitle: mockData.jobTitle,
+      company: mockData.company,
+      jobDescription: mockData.jobDescription,
+      tailoredResume: mockData.tailoredResume,
+      structuredResume: parseTailoredResumeText(mockData.tailoredResume)
+    });
+    setPreviewMode(true);
+    toast({
+      title: "Preview Mode Activated",
+      description: "Navegación sin consumir créditos de API",
+    });
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case "hero":
-        return <HeroSection onGetStarted={handleGetStarted} />;
+        return <HeroSection onGetStarted={handleGetStarted} onLoadMockData={loadMockData} />;
       
       case "upload":
         return <ResumeUploader onResumeReady={handleResumeReady} />;
@@ -128,7 +262,7 @@ export const ResumeApp = () => {
         );
       
       default:
-        return <HeroSection onGetStarted={handleGetStarted} />;
+        return <HeroSection onGetStarted={handleGetStarted} onLoadMockData={loadMockData} />;
     }
   };
 
@@ -139,9 +273,17 @@ export const ResumeApp = () => {
         <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border shadow-sm">
           <div className="container mx-auto px-6 py-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-black text-foreground tracking-tight">
-                Resume Tailor
-              </h1>
+              <div className="flex items-center space-x-4">
+                <h1 className="text-2xl font-black text-foreground tracking-tight">
+                  Resume Tailor
+                </h1>
+                {previewMode && (
+                  <span className="px-3 py-1 bg-accent/20 text-accent font-semibold text-sm rounded-full">
+                    Preview Mode
+                  </span>
+                )}
+              </div>
+              
               <div className="flex items-center space-x-6">
                 <div className="hidden md:block">
                   {currentStep === "upload" && (
@@ -159,13 +301,15 @@ export const ResumeApp = () => {
                   {["upload", "job-description", "results"].map((step, index) => (
                     <div key={step} className="flex items-center">
                       <div
-                        className={`w-4 h-4 rounded-full transition-all duration-500 ${
+                        className={`w-4 h-4 rounded-full transition-all duration-500 cursor-pointer ${
                           step === currentStep
                             ? "bg-primary scale-125 shadow-glow ring-4 ring-primary/20"
                             : ["upload", "job-description", "results"].indexOf(currentStep) > index
                             ? "bg-primary/80 scale-110"
                             : "bg-muted border-2 border-muted-foreground/20"
                         }`}
+                        onClick={() => previewMode && setCurrentStep(step as AppStep)}
+                        title={previewMode ? `Go to ${step}` : undefined}
                       />
                       {index < 2 && (
                         <div className={`w-8 h-0.5 mx-1 transition-colors duration-500 ${

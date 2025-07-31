@@ -3,9 +3,10 @@ import heroImage from "@/assets/hero-resume.jpg";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
+  onLoadMockData: () => void;
 }
 
-export const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
+export const HeroSection = ({ onGetStarted, onLoadMockData }: HeroSectionProps) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
       {/* Background Image with Overlay */}
@@ -51,9 +52,10 @@ export const HeroSection = ({ onGetStarted }: HeroSectionProps) => {
             <Button 
               variant="outline" 
               size="lg"
+              onClick={onLoadMockData}
               className="text-lg px-12 py-6 h-auto border-2 hover:bg-primary/5 rounded-2xl font-medium"
             >
-              See How It Works
+              Preview Demo
             </Button>
           </div>
 
