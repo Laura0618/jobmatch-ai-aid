@@ -38,49 +38,53 @@ serve(async (req) => {
 
     console.log('✅ Generating tailored resume for:', jobTitle, 'at', company);
 
-const prompt = `
-You are an expert recruiter specialized in tailoring CVs for job postings in the tech and product space.
 
-Your task is to **adapt the original resume to a specific job offer**. The candidate is NOT currently working in the company and has asked you **not to invent any experience**.
+const prompt = `You are an expert in human resources and resume writing for tech startups and fast-growing companies.
 
-You must analyze the job posting and map which of the following **7 product management skill areas** are present in it (even implicitly):
+Your task is to tailor an existing resume to a specific job posting. The candidate is applying to the job described below and has NOT worked there. Do not fabricate experience or imply they are already part of the company.
 
-1. Leadership and Influence  
-2. Data-Driven Decision Making  
-3. Cross-Functional Collaboration  
-4. Technical Understanding  
-5. User Focus  
-6. Project Management  
-7. Strategic Impact
-
-Then, use this mapping to guide the CV adaptation:  
-- Emphasize the projects, achievements, and bullet points most aligned with the mentioned skill areas.  
-- Maintain a **balanced structure**: don't remove other skill areas that are not mentioned if they are relevant and strong.  
-- Use natural transitions and rewrite if needed to ensure flow, coherence, and emphasis.
-
-Do not invent experience. Do not change previous company names or dates.  
-Keep a professional, clear tone and focus on impact, data, and outcomes.
-
----
-
-ORIGINAL RESUME:
+RESUME:
 ${resumeText}
-
----
 
 JOB DESCRIPTION:
 ${jobDescription}
 
----
+INSTRUCTIONS:
+1. Analyze the job description and identify which of the following skill areas are most relevant: 
+   [Leadership and Influence, Data-Driven Decision Making, Cross-Functional Collaboration, Technical Understanding, User Focus, Project Management, Strategic Impact].
 
-OUTPUT STRUCTURE:
-1. Professional Profile (short summary)
-2. Work Experience (reverse chronological)
-3. Education
-4. Skills & Tools
+2. Based on the candidate’s experience and the provided grid of skill-aligned projects, rewrite the resume to reflect a balanced but customized focus on these skill areas. Prioritize clarity and measurable impact.
 
-The output should be a fully tailored CV text, ready to export or copy.
-Do not add comments, summaries, or formatting outside the CV.`
+3. Resume structure and formatting must follow the guidelines below:
+- Professional Profile: 270–350 characters max.
+- For the two most recent roles: include up to 3 bullet points (max 200 characters each).
+- At least 75% of work experiences must include a "Highlight:" line (max 180 characters) showing a success metric.
+
+4. Do not change company names or dates.
+5. Use a professional, results-oriented tone focused on achievements and skills relevant to the job.
+6. Do not add any introductory or closing text.
+7. Do not include special characters, symbols, emojis, or comments outside the resume content.
+
+OUTPUT STRUCTURE (exactly):
+1. Full Name (uppercase, centered)
+2. Contact line: City · Phone · Email · LinkedIn (centered)
+3. Horizontal divider
+4. Professional Profile (centered, plain text paragraph)
+5. Horizontal divider
+6. PROFESSIONAL EXPERIENCE (title centered, all caps)
+   - Company Name (left) · Dates (right)
+   - Role (below, left-aligned)
+   - Bullet points (2–4 per role, max 2 lines each)
+   - Highlight: [metric-based achievement] (optional but required in 75% of roles)
+   - Divider below the section
+7. EDUCATION
+   - Institution (all caps) – Degree (title case, bold)
+8. Divider
+9. SKILLS & OTHER
+   - Tools: [list]
+   - Skills: [list]
+   - IT: [list]`;
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
