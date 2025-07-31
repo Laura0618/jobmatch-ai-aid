@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Download, Copy, ArrowLeft, Star, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ResumePreview from "@/components/ResumePreview";
-import type { ResumeData } from "@/components/ResumePreview";
+import type { ResumeData } from "@/types/resume";
 
 interface ResultsDisplayProps {
   originalResume: string;

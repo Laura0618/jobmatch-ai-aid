@@ -5,7 +5,7 @@ import { JobDescriptionInput } from "./JobDescriptionInput";
 import { ProcessingStep } from "./ProcessingStep";
 import { ResultsDisplay } from "./ResultsDisplay";
 import { parseTailoredResumeText } from "@/utils/parseTailoredResumeText";
-
+import type { ResumeData } from "@/types/resume";
 
 type AppStep = "hero" | "upload" | "job-description" | "processing" | "results";
 
@@ -100,6 +100,7 @@ export const ResumeApp = () => {
             tailoredResume={appData.tailoredResume || ""}
             jobTitle={appData.jobTitle}
             company={appData.company}
+            structuredResume={appData.structuredResume}
             onBack={handleBackToJobDescription}
             onStartOver={handleStartOver}
           />

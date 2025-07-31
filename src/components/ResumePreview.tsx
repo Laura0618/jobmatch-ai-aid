@@ -1,35 +1,10 @@
-import React, { useRef } from "react";
-
-interface ResumeData {
-  name: string;
-  location: string;
-  phone: string;
-  email: string;
-  linkedin: string;
-  summary: string;
-  experience: {
-    company: string;
-    dates: string;
-    role: string;
-    bullets: string[];
-    highlight?: string;
-  }[];
-  education: {
-    school: string;
-    degree: string;
-  }[];
-  skills: {
-    tools: string[];
-    skills: string[];
-    it: string[];
-  };
-}
+import type { ResumeData } from "@/types/resume";
 
 interface Props {
   data: ResumeData;
 }
 
-const ResumePreview: React.FC<Props> = ({ data }) => {
+const ResumePreview = ({ data }: Props) => {
   const baseFont = "Inter, Helvetica Neue, Arial, sans-serif";
 
   return (
