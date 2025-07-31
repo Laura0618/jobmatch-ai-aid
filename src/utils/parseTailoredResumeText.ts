@@ -1,6 +1,4 @@
-// src/utils/parseTailoredResumeText.ts
-
-import { ResumeData } from "@/components/ResumePreview";
+import type { ResumeData } from "@/types/resume";
 
 export function parseTailoredResumeText(text: string): ResumeData {
   const lines = text.split("\n").map(line => line.trim()).filter(Boolean);

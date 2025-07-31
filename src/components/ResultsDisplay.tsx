@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Download, Copy, ArrowLeft, Star, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ResumePreview from "@/components/ResumePreview";
-import type { ResumeData } from "@/components/ResumePreview";
+import type { ResumeData } from "@/types/resume";
 
 interface ResultsDisplayProps {
   originalResume: string;
@@ -31,25 +31,25 @@ export const ResultsDisplay = ({
 
   const coverLetter = `Dear Hiring Manager,
 
-I am writing to express my strong interest in the ${jobTitle} position${company ? ` at ${company}` : ''}. With over 5 years of experience in software development and a proven track record of building scalable web applications, I am excited about the opportunity to contribute to your team.
+I am writing to express my strong interest in the ${jobTitle} position${company ? ` at ${company}` : ''}. After carefully reviewing the job requirements, I believe my background and experience make me an excellent candidate for this role.
 
-In my current role as a Senior Software Engineer at TechCorp Inc., I have successfully led the development of customer-facing React applications that serve over 100,000 daily users. My expertise in React, Node.js, and cloud technologies directly aligns with the requirements outlined in your job posting. I have consistently delivered high-quality software solutions while collaborating effectively with cross-functional teams.
+My professional experience and skills align well with the qualifications you're seeking. I have taken the time to tailor my resume specifically for this position, highlighting the most relevant aspects of my background that directly relate to your needs.
 
-What particularly excites me about this role is the opportunity to work on challenging projects that make a real impact. My experience in architecting microservices, implementing CI/CD pipelines, and mentoring junior developers has prepared me to take on the responsibilities of this position and contribute to your team's success from day one.
+I am particularly drawn to this opportunity because it represents a chance to apply my expertise in a meaningful way while contributing to your organization's continued success. My approach to work emphasizes collaboration, continuous learning, and delivering high-quality results.
 
-I am passionate about clean code, best practices, and continuous learning. I stay current with the latest technologies and industry trends, and I believe in writing maintainable, scalable code that stands the test of time.
-
-Thank you for considering my application. I would welcome the opportunity to discuss how my skills and experience can contribute to your team's goals.
+I would welcome the opportunity to discuss how my background and enthusiasm can contribute to your team's goals. Thank you for considering my application, and I look forward to hearing from you.
 
 Best regards,
-John Doe`;
+[Your Name]
+
+Note: Please personalize this letter with your specific details and experiences.`;
 
   const improvements = [
-    "Added quantifiable achievements (100K+ users, 40% performance improvement)",
-    "Aligned technical skills with job requirements",
-    "Emphasized leadership and collaboration experience",
-    "Highlighted relevant project experience",
-    "Optimized keyword usage for ATS systems"
+    "Aligned content with specific job requirements",
+    "Optimized keywords for ATS compatibility",
+    "Restructured experience to highlight relevant skills",
+    "Enhanced formatting for better readability",
+    "Focused on achievements most relevant to the target role"
   ];
 
   const handleDownload = (content: string, filename: string) => {
@@ -184,18 +184,15 @@ John Doe`;
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <Button
           variant="outline"
-          onClick={onBack}
+          onClick={onStartOver}
           className="flex items-center space-x-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Job Description</span>
+          <span>Start Over</span>
         </Button>
 
         <div className="flex space-x-4">
-          <Button variant="secondary" onClick={onStartOver}>
-            Start Over
-          </Button>
-          <Button variant="hero" className="px-8">
+          <Button variant="hero" className="px-8" onClick={onStartOver}>
             Tailor Another Resume
           </Button>
         </div>
@@ -208,7 +205,7 @@ John Doe`;
           <p>• Review and customize the resume further if needed</p>
           <p>• Update your LinkedIn profile with similar optimizations</p>
           <p>• Practice interview questions related to the highlighted skills</p>
-          <p>• Consider connecting to our Supabase backend for advanced AI features</p>
+          <p>• Prepare specific examples that demonstrate your relevant experience</p>
         </div>
       </Card>
     </div>

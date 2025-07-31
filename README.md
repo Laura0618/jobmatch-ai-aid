@@ -1,50 +1,19 @@
-### 📄 `README.md`
-
-```md
 # 💼 Resume Tailored
 
-Resume Tailored es una aplicación que permite adaptar tu currículum a una oferta laboral específica usando inteligencia artificial. Genera automáticamente una versión personalizada y profesional de tu CV, lista para copiar o descargar como PDF.
+AI-powered resume tailoring application that optimizes your CV for specific job positions.
 
----
+## 🚀 Features
 
-## 🚀 ¿Qué hace esta app?
+- Upload your resume and job description
+- AI-powered resume optimization using OpenAI
+- Professional formatted preview
+- Copy to clipboard or download
+- Clean, responsive design
 
-1. ✍️ Recibes como entrada:
-   - Tu CV original (texto libre)
-   - Título del puesto
-   - Nombre de la empresa
-   - Descripción del puesto
+## 🧱 Tech Stack
 
-2. ⚙️ Se genera:
-   - Un currículum adaptado usando IA (OpenAI vía Supabase Edge Function)
-   - Visualización en pantalla con formato profesional
-   - Opción para copiar o exportar como PDF
-
----
-
-## 🧱 Arquitectura técnica
-
-- **Frontend**: React + TailwindCSS
-- **Backend**: Supabase Edge Functions (Deno)
-- **IA**: OpenAI (gpt-4o-mini / gpt-3.5-turbo)
-- **Deploy & UI builder**: Lovable
-- **Output**: Formato enriquecido + PDF
-
----
-
-## 📦 Estructura del proyecto
-jobmatch-ai-aid/
-├── public/
-├── src/
-│   ├── components/
-│   │   └── ResumePreview.tsx  # Vista formateada del CV adaptado
-│   ├── App.tsx
-│   └── …
-├── supabase/
-│   └── functions/
-│       └── generate-tailored-resume/
-├── docs/
-│   └── day-1-summary.md
-├── README.md
-└── CHANGELOG.md
----
+- **Frontend**: React + TypeScript + Tailwind CSS
+- **Backend**: Supabase Edge Functions
+- **AI**: OpenAI GPT-4
+- **Styling**: Tailwind CSS with custom design system
+- **Components**: Radix UI + shadcn/ui

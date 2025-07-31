@@ -78,9 +78,6 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
     <div className="max-w-2xl mx-auto space-y-8">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-foreground mb-4">Enter Your Resume</h2>
-        <p className="text-muted-foreground text-lg">
-          Paste your resume text to get started
-        </p>
       </div>
 
       {/* Text Area for Resume */}
@@ -94,16 +91,6 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
           placeholder="Copy and paste your resume content here..."
           className="min-h-[200px] resize-none"
         />
-        
-        {/* Previously Used Resumes */}
-        <div className="space-y-2">
-          <label className="text-xs font-medium text-muted-foreground">
-            Previously used resumes
-          </label>
-          <div className="text-xs text-muted-foreground p-3 bg-muted/30 rounded-md border">
-            No previous resumes found. Your uploaded resumes will appear here for quick access.
-          </div>
-        </div>
       </div>
 
       {/* Next Button */}
