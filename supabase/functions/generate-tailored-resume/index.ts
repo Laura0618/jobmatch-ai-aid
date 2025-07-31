@@ -38,30 +38,49 @@ serve(async (req) => {
 
     console.log('✅ Generating tailored resume for:', jobTitle, 'at', company);
 
-    const prompt = `Actúa como un experto en recursos humanos con experiencia en redactar currículums personalizados para startups tecnológicas y plataformas de aprendizaje como Preply.
+const prompt = `
+You are an expert recruiter specialized in tailoring CVs for job postings in the tech and product space.
 
-Tu tarea es adaptar un currículum existente a una oferta de trabajo específica. La persona está aplicando a esta oferta, **no ha trabajado allí**. No inventes experiencia, no asumas que ya forma parte de la empresa.
+Your task is to **adapt the original resume to a specific job offer**. The candidate is NOT currently working in the company and has asked you **not to invent any experience**.
 
-CURRÍCULUM ORIGINAL:
+You must analyze the job posting and map which of the following **7 product management skill areas** are present in it (even implicitly):
+
+1. Leadership and Influence  
+2. Data-Driven Decision Making  
+3. Cross-Functional Collaboration  
+4. Technical Understanding  
+5. User Focus  
+6. Project Management  
+7. Strategic Impact
+
+Then, use this mapping to guide the CV adaptation:  
+- Emphasize the projects, achievements, and bullet points most aligned with the mentioned skill areas.  
+- Maintain a **balanced structure**: don't remove other skill areas that are not mentioned if they are relevant and strong.  
+- Use natural transitions and rewrite if needed to ensure flow, coherence, and emphasis.
+
+Do not invent experience. Do not change previous company names or dates.  
+Keep a professional, clear tone and focus on impact, data, and outcomes.
+
+---
+
+ORIGINAL RESUME:
 ${resumeText}
 
-OFERTA DE TRABAJO:
+---
+
+JOB DESCRIPTION:
 ${jobDescription}
 
-INSTRUCCIONES:
-- Reescribe el currículum resaltando las habilidades, logros y experiencias más alineadas con la oferta.
-- No modifiques los nombres de las empresas anteriores ni las fechas.
-- Mantén un tono profesional, claro y orientado a impacto (logros medibles, decisiones estratégicas, habilidades clave).
-- Mantén las secciones principales: Perfil, Experiencia profesional, Educación, Habilidades.
-- No agregues símbolos extraños ni comentarios fuera del currículum.
-- Devuelve solo el currículum adaptado, listo para ser copiado y pegado o exportado a PDF.
+---
 
-Estructura de salida recomendada:
-1. Perfil profesional
-2. Experiencia profesional (en orden cronológico inverso)
-3. Educación
-4. Habilidades y herramientas`;
+OUTPUT STRUCTURE:
+1. Professional Profile (short summary)
+2. Work Experience (reverse chronological)
+3. Education
+4. Skills & Tools
 
+The output should be a fully tailored CV text, ready to export or copy.
+Do not add comments, summaries, or formatting outside the CV.`
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {

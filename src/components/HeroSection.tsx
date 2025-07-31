@@ -11,9 +11,9 @@ export const HeroSection = ({ onGetStarted, onLoadMockData }: HeroSectionProps) 
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
-          alt="Professional workspace" 
+        <img
+          src={heroImage}
+          alt="Professional workspace"
           className="w-full h-full object-cover opacity-10"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
@@ -35,22 +35,22 @@ export const HeroSection = ({ onGetStarted, onLoadMockData }: HeroSectionProps) 
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-16 max-w-4xl mx-auto leading-relaxed font-light">
-            Upload your resume, paste any job description, and watch AI craft a perfectly tailored resume 
+            Upload your resume, paste any job description, and watch AI craft a perfectly tailored resume
             and cover letter that gets you noticed.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
-            <Button 
-              variant="hero" 
-              size="lg" 
+            <Button
+              variant="hero"
+              size="lg"
               onClick={onGetStarted}
               className="text-lg px-12 py-6 h-auto rounded-2xl font-semibold shadow-2xl"
             >
               Get Started Free
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="lg"
               onClick={onLoadMockData}
               className="text-lg px-12 py-6 h-auto border-2 hover:bg-primary/5 rounded-2xl font-medium"
@@ -79,8 +79,8 @@ export const HeroSection = ({ onGetStarted, onLoadMockData }: HeroSectionProps) 
 
       {/* Floating Elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-primary/20 rounded-full blur-2xl animate-float"></div>
-      <div className="absolute bottom-20 right-10 w-40 h-40 bg-accent/20 rounded-full blur-2xl animate-float" style={{animationDelay: "1s"}}></div>
-      <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary/10 rounded-full blur-xl animate-float" style={{animationDelay: "2s"}}></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-accent/20 rounded-full blur-2xl animate-float" style={{ animationDelay: "1s" }}></div>
+      <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary/10 rounded-full blur-xl animate-float" style={{ animationDelay: "2s" }}></div>
     </section>
   );
 };
