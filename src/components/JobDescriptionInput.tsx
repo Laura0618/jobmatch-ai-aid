@@ -32,19 +32,19 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-4">Job Description</h2>
-        <p className="text-muted-foreground text-lg">
-          Tell us about the position you're applying for
+    <div className="max-w-3xl mx-auto space-y-10">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 tracking-tight">Job Description</h2>
+        <p className="text-lg text-muted-foreground font-light max-w-2xl mx-auto">
+          Tell us about the position you're applying for so we can optimize your resume perfectly
         </p>
       </div>
 
-      <Card className="p-8 bg-gradient-card shadow-card">
-        <div className="space-y-6">
+      <Card className="p-10 bg-gradient-card shadow-elegant border-0">
+        <div className="space-y-8">
           {/* Job Title */}
-          <div className="space-y-2">
-            <Label htmlFor="jobTitle" className="text-base font-medium">
+          <div className="space-y-3">
+            <Label htmlFor="jobTitle" className="text-lg font-semibold text-foreground">
               Job Title
             </Label>
             <Input
@@ -52,38 +52,38 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
               value={jobTitle}
               onChange={(e) => setJobTitle(e.target.value)}
               placeholder="e.g. Senior Software Engineer"
-              className="text-lg h-12"
+              className="text-lg h-14 border-2 focus:border-primary/50 rounded-xl"
             />
           </div>
 
           {/* Company */}
-          <div className="space-y-2">
-            <Label htmlFor="company" className="text-base font-medium">
-              Company (Optional)
+          <div className="space-y-3">
+            <Label htmlFor="company" className="text-lg font-semibold text-foreground">
+              Company <span className="text-muted-foreground font-normal">(Optional)</span>
             </Label>
             <Input
               id="company"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               placeholder="e.g. Google, Microsoft, Startup Inc."
-              className="text-lg h-12"
+              className="text-lg h-14 border-2 focus:border-primary/50 rounded-xl"
             />
           </div>
 
           {/* Job Description */}
-          <div className="space-y-2">
-            <Label htmlFor="jobDescription" className="text-base font-medium">
-              Job Description *
+          <div className="space-y-3">
+            <Label htmlFor="jobDescription" className="text-lg font-semibold text-foreground">
+              Job Description <span className="text-red-500">*</span>
             </Label>
             <Textarea
               id="jobDescription"
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
               placeholder="Paste the complete job description here, including requirements, responsibilities, and qualifications..."
-              className="min-h-[300px] resize-none text-base"
+              className="min-h-[300px] resize-none text-base leading-relaxed border-2 focus:border-primary/50 rounded-xl"
             />
-            <p className="text-sm text-muted-foreground">
-              The more detailed the job description, the better we can tailor your resume.
+            <p className="text-sm text-muted-foreground font-medium bg-accent/10 p-3 rounded-lg">
+              💡 The more detailed the job description, the better we can tailor your resume.
             </p>
           </div>
         </div>
@@ -91,11 +91,11 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
 
 
       {/* Action Buttons */}
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center pt-6">
         <Button
           variant="outline"
           onClick={onBack}
-          className="flex items-center space-x-2"
+          className="flex items-center space-x-2 px-8 py-4 h-auto rounded-xl border-2 font-medium"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back</span>
@@ -106,9 +106,9 @@ export const JobDescriptionInput = ({ onJobDescriptionReady, onBack }: JobDescri
           size="lg"
           onClick={handleSubmit}
           disabled={!jobDescription.trim()}
-          className="px-12"
+          className="px-16 py-6 h-auto text-lg font-semibold rounded-2xl shadow-2xl"
         >
-          Generate Resume
+          Generate Tailored Resume
         </Button>
       </div>
     </div>

@@ -75,34 +75,39 @@ export const ResumeUploader = ({ onResumeReady }: ResumeUploaderProps) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-foreground mb-4">Enter Your Resume</h2>
+    <div className="max-w-3xl mx-auto space-y-10">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 tracking-tight">Enter Your Resume</h2>
+        <p className="text-lg text-muted-foreground font-light max-w-2xl mx-auto">
+          Paste your resume content below to get started with AI-powered optimization
+        </p>
       </div>
 
       {/* Text Area for Resume */}
-      <div className="space-y-4">
-        <label className="text-sm font-medium text-foreground">
-          Paste your resume text
-        </label>
-        <Textarea
-          value={resumeText}
-          onChange={(e) => setResumeText(e.target.value)}
-          placeholder="Copy and paste your resume content here..."
-          className="min-h-[200px] resize-none"
-        />
-      </div>
+      <Card className="p-8 bg-gradient-card shadow-elegant border-0">
+        <div className="space-y-6">
+          <label className="text-lg font-semibold text-foreground block">
+            Resume Content
+          </label>
+          <Textarea
+            value={resumeText}
+            onChange={(e) => setResumeText(e.target.value)}
+            placeholder="Copy and paste your resume content here... Include your contact info, experience, education, and skills."
+            className="min-h-[300px] resize-none text-base leading-relaxed border-2 focus:border-primary/50 rounded-xl"
+          />
+        </div>
+      </Card>
 
       {/* Next Button */}
-      <div className="flex justify-center">
+      <div className="flex justify-center pt-4">
         <Button
           variant="hero"
           size="lg"
           onClick={handleNext}
           disabled={!resumeText.trim()}
-          className="px-12"
+          className="px-16 py-6 h-auto text-lg font-semibold rounded-2xl shadow-2xl"
         >
-          Continue
+          Continue to Job Details
         </Button>
       </div>
     </div>

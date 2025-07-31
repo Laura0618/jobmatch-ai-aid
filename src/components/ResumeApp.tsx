@@ -134,37 +134,47 @@ export const ResumeApp = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Progress indicator for non-hero steps */}
+      {/* Modern Progress indicator for non-hero steps */}
       {currentStep !== "hero" && (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
-          <div className="container mx-auto px-6 py-4">
+        <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border shadow-sm">
+          <div className="container mx-auto px-6 py-6">
             <div className="flex items-center justify-between">
-              <h1 className="text-xl font-semibold text-foreground">
+              <h1 className="text-2xl font-black text-foreground tracking-tight">
                 Resume Tailor
               </h1>
-              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                {currentStep === "upload" && (
-                  <span className="text-foreground font-medium">Step 1: Upload Resume</span>
-                )}
-                {currentStep === "job-description" && (
-                  <span className="text-foreground font-medium">Step 2: Job Description</span>
-                )}
-                {currentStep === "results" && (
-                  <span className="text-foreground font-medium">Step 3: Tailored Resume</span>
-                )}
+              <div className="flex items-center space-x-6">
+                <div className="hidden md:block">
+                  {currentStep === "upload" && (
+                    <span className="text-foreground font-semibold text-lg">📝 Enter Resume Content</span>
+                  )}
+                  {currentStep === "job-description" && (
+                    <span className="text-foreground font-semibold text-lg">💼 Add Job Details</span>
+                  )}
+                  {currentStep === "results" && (
+                    <span className="text-foreground font-semibold text-lg">✨ Your Tailored Resume</span>
+                  )}
+                </div>
                 
-                <div className="flex space-x-2">
+                <div className="flex items-center space-x-3">
                   {["upload", "job-description", "results"].map((step, index) => (
-                    <div
-                      key={step}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        step === currentStep
-                          ? "bg-primary scale-125 shadow-glow"
-                          : ["upload", "job-description", "results"].indexOf(currentStep) > index
-                          ? "bg-primary/60"
-                          : "bg-muted"
-                      }`}
-                    />
+                    <div key={step} className="flex items-center">
+                      <div
+                        className={`w-4 h-4 rounded-full transition-all duration-500 ${
+                          step === currentStep
+                            ? "bg-primary scale-125 shadow-glow ring-4 ring-primary/20"
+                            : ["upload", "job-description", "results"].indexOf(currentStep) > index
+                            ? "bg-primary/80 scale-110"
+                            : "bg-muted border-2 border-muted-foreground/20"
+                        }`}
+                      />
+                      {index < 2 && (
+                        <div className={`w-8 h-0.5 mx-1 transition-colors duration-500 ${
+                          ["upload", "job-description", "results"].indexOf(currentStep) > index
+                            ? "bg-primary/60"
+                            : "bg-muted"
+                        }`} />
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
