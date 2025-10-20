@@ -21,7 +21,7 @@ interface AppData {
 
 export const ResumeApp = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>("hero");
-  const [previewMode, setPreviewMode] = useState(false); // Modo para navegar sin API calls
+  const [previewMode, setPreviewMode] = useState(false); // Mode to navigate without API calls
   const [appData, setAppData] = useState<AppData>({
     resumeText: "",
     jobTitle: "",
@@ -30,7 +30,7 @@ export const ResumeApp = () => {
   });
   const { toast } = useToast();
 
-  // Datos de muestra para testing
+  // Mock data for testing
   const mockData = {
     resumeText: `JOHN DOE
 Software Engineer
@@ -147,13 +147,13 @@ KEY ACHIEVEMENTS
   const handleJobDescriptionReady = async (jobTitle: string, company: string, jobDescription: string) => {
     setAppData(prev => ({ ...prev, jobTitle, company, jobDescription }));
     
-    // Si está en modo preview, usar datos de muestra
+    // If in preview mode, use mock data
     if (previewMode) {
       setTimeout(() => {
         handleProcessingComplete(mockData.tailoredResume);
         toast({
           title: "Preview Mode",
-          description: "Usando datos de muestra - No se consumieron créditos de API",
+          description: "Using sample data - No API credits consumed",
         });
       }, 1000);
       return;
@@ -172,28 +172,40 @@ KEY ACHIEVEMENTS
 
       if (error) {
         console.error('Supabase function error:', error);
-        throw new Error(`Error de API: ${error.message}`);
+        throw new Error(`API Error: ${error.message}`);
       }
 
       if (data?.tailoredResume) {
         handleProcessingComplete(data.tailoredResume);
       } else {
-        throw new Error('No se pudo generar el currículum');
+        throw new Error('Failed to generate resume');
       }
     } catch (err) {
       console.error('Error generating resume:', err);
       toast({
         title: "Error",
-        description: err instanceof Error ? err.message : "Error desconocido",
+        description: err instanceof Error ? err.message : "Unknown error occurred",
         variant: "destructive"
       });
     }
   };
 
   const handleProcessingComplete = (tailoredResume: string) => {
-    const structuredResume = parseTailoredResumeText(tailoredResume);
-    setAppData(prev => ({ ...prev, tailoredResume, structuredResume }));
-    setCurrentStep("results");
+    try {
+      const structuredResume = parseTailoredResumeText(tailoredResume);
+      setAppData(prev => ({ ...prev, tailoredResume, structuredResume }));
+      setCurrentStep("results");
+    } catch (error) {
+      console.error("Error parsing resume:", error);
+      toast({
+        title: "Parsing Warning",
+        description: "Resume generated but some formatting may be imperfect. Please review carefully.",
+        variant: "default"
+      });
+      // Still set the data and proceed, but without structured version
+      setAppData(prev => ({ ...prev, tailoredResume }));
+      setCurrentStep("results");
+    }
   };
 
   const handleBackToUpload = () => {
@@ -227,7 +239,7 @@ KEY ACHIEVEMENTS
     setPreviewMode(true);
     toast({
       title: "Preview Mode Activated",
-      description: "Navegación sin consumir créditos de API",
+      description: "Navigation without consuming API credits",
     });
   };
 
